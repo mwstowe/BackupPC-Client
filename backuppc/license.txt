@@ -1,0 +1,7 @@
+
+This installation package provided without warranty or liability, or any claims
+of ownership to the files contained herein.
+
+The installer is free of charge for all purposes.  Files installed are distributed
+under free licenses, including the GPL, and Microsoft's SDK license.  Please
+consult those licenses for any information.
