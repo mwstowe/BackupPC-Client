@@ -1,8 +1,11 @@
 !include x64.nsh
 !include WinVer.nsh
 !include nsDialogs.nsh
+!include FileFunc.nsh
 
-SetCompressor lzma
+!define ARP "Software\Microsoft\Windows\CurrentVersion\Uninstall\BackupPC"
+
+SetCompressor /solid lzma
 Name "Windows BackupPC Rsync-Shadow Copy Client"
  
 SetDateSave on
@@ -145,12 +148,13 @@ Section "BackupPC rsync-vshadow client" ;No components page, name is not importa
   
   WriteUninstaller "uninstall.exe"
   
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BackupPC" \
-                 "DisplayName" "BackupPC Client (rsync-vshadow-winexe)"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BackupPC" \
-                 "DisplayVersion" "1.3.1"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BackupPC" \
-                 "UninstallString" "$\"$INSTDIR\uninstall.exe$\""
+  WriteRegStr HKLM "${ARP}" "DisplayName" "BackupPC Client (rsync-vshadow-winexe)"
+  WriteRegStr HKLM "${ARP}" "DisplayVersion" "1.3.2"
+  WriteRegStr HKLM "${ARP}" "Publisher" "Michael Stowe"
+  ${GetSize} "$INSTDIR" "/S=0K" $0 $1 $2
+  IntFmt $0 "0x%08X" $0
+  WriteRegDWORD HKLM "${ARP}" "EstimatedSize" "$0"					 
+  WriteRegStr HKLM "${ARP}" "UninstallString" "$\"$INSTDIR\uninstall.exe$\""
   
 SectionEnd ; end the section
 
