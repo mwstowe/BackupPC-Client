@@ -1,10 +1,23 @@
-Const Flag = "C:\BackupPC\rsyncd.pid"
+Const Rsync = "C:\BackupPC\rsyncd.pid"
+Const Flag = "C:\BackupPC\wake.up"
 '
 ' Pid file shouldn't be there already
 '
-If DoesFileExist(Flag)=0 Then
+If DoesFileExist(Rsync)=0 Then
+'  Create wake.up file to clear any debris
    Set fso = CreateObject("Scripting.FileSystemObject")
-   Set aFile = fso.GetFile(Flag)
+   set oFile = fso.CreateTextFile(Flag)
+   oFile.WriteLine("pre-cmd")
+   oFile.Close
+   wscript.sleep 10000
+End If
+
+' 
+' Check again to see if the Pid file didn't disappear
+'
+If DoesFileExist(Rsync)=0 Then
+   Set fso = CreateObject("Scripting.FileSystemObject")
+   Set aFile = fso.GetFile(Rsync)
    aFile.Delete
 End If
 '
@@ -26,7 +39,7 @@ objShell.Exec "C:\BackupPC\backuppc.cmd > C:\BackupPC\file.out"
 ' Just sleep until the file "rsyncd.pid" appears
 '
 
-While DoesFileExist(Flag)
+While DoesFileExist(Rsync)
    wscript.sleep 10000
 Wend
 

@@ -146,7 +146,9 @@ Section "BackupPC rsync-vshadow client" ;No components page, name is not importa
   WriteUninstaller "uninstall.exe"
   
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BackupPC" \
-                 "DisplayName" "BackupPC Client 1.3(rsync-vshadow-winexe)"
+                 "DisplayName" "BackupPC Client (rsync-vshadow-winexe)"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BackupPC" \
+                 "DisplayVersion" "1.3.1"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BackupPC" \
                  "UninstallString" "$\"$INSTDIR\uninstall.exe$\""
   
@@ -216,6 +218,8 @@ Function RsyncSecretsSave
 
 	${NSD_GetText} $UnameText $UnameText_Entry
 	${NSD_GetText} $PasswordText $PasswordText_Entry
+	
+	IfFileExists $INSTDIR\rsyncd.secrets +11
 	
 	FileOpen $9 $INSTDIR\rsyncd.secrets w
 	FileWrite $9 $UnameText_Entry
