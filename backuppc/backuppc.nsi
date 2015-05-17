@@ -63,19 +63,31 @@ Section "BackupPC rsync-vshadow client" ;No components page, name is not importa
   Delete cygminires.dll
   
   ; Put files there
-  File backuppc.cmd
-  File cygwin1.dll
-  File cygiconv-2.dll
-  File cygz.dll
-  File dosdev.exe
+  SetOverwrite off
   File part.cmd
+  File rsyncd.conf
+  SetOverwrite on
+  File backuppc.cmd
+  File dosdev.exe
   File pre-cmd.vbs
   File pre-exec.cmd
-  File rsync.exe
-  File rsyncd.conf
   File sleep.vbs
   File vsrsync.cmd
   File vss-setvar.cmd
+  
+  ${If} ${RunningX64}
+   DetailPrint "Using 64-bit Cygwin"
+   File /oname=cygwin1.dll cygwin1-x64.dll
+   File /oname=cygiconv-2.dll cygiconv-2-x64.dll
+   File /oname=cygz.dll cygz-x64.dll
+   File /oname=rsync.exe rsync-x64.exe
+  ${Else}
+   DetailPrint "Using 32-bit Cygwin"
+   File /oname=cygwin1.dll cygwin1-x86.dll
+   File /oname=cygiconv-2.dll cygiconv-2-x86.dll
+   File /oname=cygz.dll cygz-x86.dll
+   File /oname=rsync.exe rsync-x86.exe
+  ${EndIf}   
 
 ; Handle proper version of vshadow
   
@@ -134,7 +146,7 @@ Section "BackupPC rsync-vshadow client" ;No components page, name is not importa
   WriteUninstaller "uninstall.exe"
   
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BackupPC" \
-                 "DisplayName" "BackupPC Client (rsync-vshadow-winexe)"
+                 "DisplayName" "BackupPC Client 1.3(rsync-vshadow-winexe)"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BackupPC" \
                  "UninstallString" "$\"$INSTDIR\uninstall.exe$\""
   
@@ -183,7 +195,7 @@ SectionEnd
 Function RsyncSecretsPage
    SetOutPath $INSTDIR
    DetailPrint "rsyncd.secrets check"
-   IfFileExists $INSTDIR\rsyncd.secrets +14
+   IfFileExists $INSTDIR\rsyncd.secrets +15
    nsDialogs::Create 1018
    Pop $Dialog
    ${If} $Dialog == error
