@@ -64,6 +64,8 @@ Section "BackupPC rsync-vshadow client" ;No components page, name is not importa
   Delete cygcrypto-0.9.8.dll
   Delete cygintl-3.dll
   Delete cygminires.dll
+  ; Delete 32-bit-only file
+  Delete cyggcc_s-1.dll
   
   ; Put files there
   SetOverwrite off
@@ -89,6 +91,7 @@ Section "BackupPC rsync-vshadow client" ;No components page, name is not importa
    File /oname=cygwin1.dll cygwin1-x86.dll
    File /oname=cygiconv-2.dll cygiconv-2-x86.dll
    File /oname=cygz.dll cygz-x86.dll
+   File /oname=cyggcc_s-1.dll cyggcc_s-1-x86.dll
    File /oname=rsync.exe rsync-x86.exe
   ${EndIf}   
 
@@ -149,7 +152,7 @@ Section "BackupPC rsync-vshadow client" ;No components page, name is not importa
   WriteUninstaller "uninstall.exe"
   
   WriteRegStr HKLM "${ARP}" "DisplayName" "BackupPC Client (rsync-vshadow-winexe)"
-  WriteRegStr HKLM "${ARP}" "DisplayVersion" "1.3.2"
+  WriteRegStr HKLM "${ARP}" "DisplayVersion" "1.3.3"
   WriteRegStr HKLM "${ARP}" "Publisher" "Michael Stowe"
   ${GetSize} "$INSTDIR" "/S=0K" $0 $1 $2
   IntFmt $0 "0x%08X" $0
@@ -175,6 +178,7 @@ Section "Uninstall"
   Delete $INSTDIR\cygintl-3.dll
   Delete $INSTDIR\cygminires.dll
   Delete $INSTDIR\cygwin1.dll
+  Delete $INSTDIR\cyggcc_s-1.dll
   Delete $INSTDIR\cygz.dll
   Delete $INSTDIR\dosdev.exe
   Delete $INSTDIR\part.cmd
