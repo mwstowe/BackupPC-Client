@@ -16,7 +16,7 @@ SET CYGWIN=nontsec
 SET CWOLDPATH=%PATH%
 SET PATH=\BACKUPPC;%PATH%
 
-FOR /F "tokens=*" %%G IN ("%MAP%") DO (
+FOR /F "tokens=1,2,3,4,5,6,7" %%G IN ("%MAP%") DO (
 	if "%SHADOW_DEVICE_1%" NEQ "" dosdev %%G %SHADOW_DEVICE_1%
 	if "%SHADOW_DEVICE_2%" NEQ "" dosdev %%H %SHADOW_DEVICE_2%
 	if "%SHADOW_DEVICE_3%" NEQ "" dosdev %%I %SHADOW_DEVICE_3%
@@ -29,7 +29,7 @@ FOR /F "tokens=*" %%G IN ("%MAP%") DO (
 REM Go into daemon mode, we'll kill it once we're done
 rsync -v -v --daemon --config=rsyncd.conf --no-detach --log-file=diagnostic.txt
 
-FOR /F "tokens=*" %%G IN ("%MAP%") DO (
+FOR /F "tokens=1,2,3,4,5,6,7" %%G IN ("%MAP%") DO (
 	if "%SHADOW_DEVICE_1%" NEQ "" dosdev -r -d %%G
 	if "%SHADOW_DEVICE_2%" NEQ "" dosdev -r -d %%H
 	if "%SHADOW_DEVICE_3%" NEQ "" dosdev -r -d %%I

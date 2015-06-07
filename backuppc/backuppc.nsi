@@ -152,7 +152,7 @@ Section "BackupPC rsync-vshadow client" ;No components page, name is not importa
   WriteUninstaller "uninstall.exe"
   
   WriteRegStr HKLM "${ARP}" "DisplayName" "BackupPC Client (rsync-vshadow-winexe)"
-  WriteRegStr HKLM "${ARP}" "DisplayVersion" "1.3.3"
+  WriteRegStr HKLM "${ARP}" "DisplayVersion" "1.3.4"
   WriteRegStr HKLM "${ARP}" "Publisher" "Michael Stowe"
   ${GetSize} "$INSTDIR" "/S=0K" $0 $1 $2
   IntFmt $0 "0x%08X" $0
